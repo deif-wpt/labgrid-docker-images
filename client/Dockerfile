@@ -6,5 +6,5 @@ RUN pip3 install filemagic
 RUN git clone https://github.com/labgrid-project/labgrid /opt/labgrid
 RUN cd /opt/labgrid && python3 setup.py install
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-c"]
 
