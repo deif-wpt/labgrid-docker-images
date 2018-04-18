@@ -1,11 +1,16 @@
-FROM ubuntu:16.04
+FROM python:3
 RUN apt-get update
-RUN apt-get install --assume-yes git python3 virtualenv python3-pip libffi-dev python-dev
+RUN apt-get install --assume-yes vim
+RUN pip3 install filemagic
 
-RUN virtualenv -p python3 /opt/labgrid-venv && . /opt/labgrid-venv/bin/activate && pip3 install idna==2.5 && pip3 install labgrid[coordinator]==0.1.0 xmodem
+RUN git clone https://github.com/labgrid-project/labgrid /opt/labgrid
+RUN cd /opt/labgrid && pip3 install -r crossbar-requirements.txt && python3 setup.py install
+RUN find / -name crossbar -type f
 
-RUN git clone --branch v0.1.0 https://github.com/labgrid-project/labgrid /opt/labgrid
 
-COPY entry_script.sh /opt/entry_script.sh
+RUN echo '#!/bin/bash' > /opt/entry_script.sh
+RUN echo 'cd /opt/labgrid && /usr/local/bin/crossbar start' >> /opt/entry_script.sh
 RUN chmod a+x /opt/entry_script.sh
 ENTRYPOINT ["/opt/entry_script.sh"]
+
+
