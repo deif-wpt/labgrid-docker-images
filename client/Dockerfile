@@ -33,5 +33,5 @@ RUN git clone https://github.com/skarnet/skalibs.git \
  && cd .. \
  && rm -rf skalibs
 
-
+RUN gem install asciidoctor-pdf --pre
 
